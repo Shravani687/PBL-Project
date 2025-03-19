@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator with Current URL</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <style>
+        /* Apply some basic styles to the body */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f9;
+            text-align: center;
+        }
+
+        /* Container to wrap the content */
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        /* Heading style */
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* QR Code Canvas */
+        #qrCodeCanvas {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            max-width: 100%;
+            height: auto;
+            transition: transform 1s ease; /* For smooth flip */
+        }
+
+        /* Timer display style */
+        #timer {
+            font-size: 18px;
+            color: #555;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Flip animation */
+        .flip {
+            transform: rotateY(180deg); /* Flip the QR Code horizontally */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QR Code Generator with Current URL</h1>
+
+        <!-- QR Code Canvas -->
+        <canvas id="qrCodeCanvas"></canvas>
+
+        <!-- Timer Display -->
+        <div id="timer">Next QR Code refresh in: 30s</div>
+    </div>
+
+    <script>
+        // Function to generate QR Code with the current URL of the webpage
+        function generateQRCode() {
+            const currentURL = window.location.href; // Get the current page URL
+
+            // Generate QR code on canvas with the current URL
+            QRCode.toCanvas(document.getElementById('qrCodeCanvas'), currentURL, function (error) {
+                if (error) {
+                    console.error('Error generating QR code:', error);
+                } else {
+                    console.log("QR Code generated successfully with the current URL!");
+                }
+            });
+        }
+
+        // Function to start the countdown timer and trigger the flip animation
+        function startCountdown() {
+            let countdown = 30; // Set countdown to 30 seconds
+            const timerElement = document.getElementById('timer');
+            const qrCodeCanvas = document.getElementById('qrCodeCanvas');
+
+            // Update the timer text every second
+            const interval = setInterval(function() {
+                timerElement.textContent = `Next QR Code refresh in: ${countdown}s`;
+                countdown--;
+
+                // When countdown reaches 0, apply the flip animation and refresh the QR code
+                if (countdown < 0) {
+                    // Apply flip animation
+                    qrCodeCanvas.classList.add('flip');
+
+                    // After the flip animation is done, regenerate QR Code and reset the timer
+                    setTimeout(function() {
+                        generateQRCode(); // Refresh QR Code
+                        qrCodeCanvas.classList.remove('flip'); // Remove flip animation
+                    }, 500); // Wait for half the flip duration before refreshing the QR code
+
+                    countdown = 30; // Reset countdown
+                }
+            }, 1000); // Update every second
+        }
+
+        // Initialize QR Code and start the countdown timer
+        window.onload = function() {
+            generateQRCode(); // Generate QR Code once when the page loads
+            startCountdown();  // Start the countdown timer
+        };
+    </script>
+</body>
+</html>
