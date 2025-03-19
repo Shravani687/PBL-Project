@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location on Google Map</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #error {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Your Current Location on the Map</h1>
+        <div id="map"></div>
+        <p id="error"></p>
+    </div>
+
+    <script>
+        // Function to initialize and display the map
+        function initMap(lat, lon) {
+            const userLocation = { lat: lat, lng: lon };
+
+            // Initialize the map centered at the user's location
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: userLocation,
+            });
+
+            // Add a marker at the user's location
+            const marker = new google.maps.Marker({
+                position: userLocation,
+                map: map,
+                title: "You are here!",
+            });
+        }
+
+        // Function to handle geolocation errors
+        function showError(error) {
+            let errorMessage = "";
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    errorMessage = "An unknown error occurred.";
+                    break;
+            }
+            document.getElementById("error").textContent = errorMessage;
+        }
+
+        // Check if geolocation is available and get current location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                initMap(latitude, longitude); // Show the map with user's location
+            }, showError);
+        } else {
+            document.getElementById("error").textContent = "Geolocation is not supported by this browser.";
+        }
+    </script>
+
+    <!-- Google Maps API Script with API key -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGcW5jJHfkcXgASGfKHf9vg9X4UQNZwTw&callback=initMap" async defer></script>
+
+</body>
+</html>
