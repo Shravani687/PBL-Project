@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <style>
+       
+        body {
+            background-image: url('https://images.collegedunia.com/public/college_data/images/campusimage/1416907067infra6campus1.JPG');
+
+            background-size: cover; /* Ensures the background image covers the entire screen */
+            background-position: center; /* Centers the background image */
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Arrange logo and form vertically */
+            height: 100vh;
+            background-color:black;
+            margin: 0; /* Remove default body margin */
+        }
+
+        .logo {
+            margin-top: -300px; /* Space between logo and form */
+            
+        }
+
+        .logo img {
+            width: 150px; /* Set fixed width for logo */
+            height: auto; /* Maintain aspect ratio */
+            position: absolute;
+            top: 20px;
+            left: 10px;
+        }
+
+        .logo1 {
+            margin-top: -300px; /* Space between logo and form */
+            
+        }
+
+        .logo1 img {
+            width: 150px; /* Set fixed width for logo */
+            height: auto; /* Maintain aspect ratio */
+            position: absolute;
+            top: 50px;
+            right: 10px;
+        }
+
+        .form-container {
+            background-color: white;
+            position: absolute;
+            top: 300px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center; /* Center the text in the form */
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px; /* Add space below the heading */
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+        .user{
+            position: relative;
+            margin-left: -12px;
+        }
+        .pass{
+            position: relative;
+            margin-left: -12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="logo.png" alt="Logo"> <!-- Make sure your image path is correct -->
+    </div>
+
+    <body>
+        <div class="logo1">
+            <img src="naac a+.png" alt="Logo"> <!-- Make sure your image path is correct -->
+        </div>
+
+    <div class="form-container">
+        <h2>User Login</h2>
+        <form id="loginForm">
+            <label  for="username">Username</label>
+            <input class="user" type="text" id="username" name="username" required>
+            <label for="password">Password</label>
+            <input class="pass" type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+            <p id="errorMessage" class="error"></p>
+        </form>
+    </div>
+
+    <script>
+        // List of valid users (username and password pairs)
+        const users = [
+            { username: "Sanchit", password: "46" },
+            { username: "Apurv", password: "49" },
+            { username: "Shravani", password: "42" },
+            { username: "Riddhi", password: "52" },
+            { username: "Harshal", password: "22" },
+            { username: "Sai", password: "8" }
+        ];
+
+        const form = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('errorMessage');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting
+
+            // Clear previous error message
+            errorMessage.textContent = "";
+
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+
+            // Check if the entered username and password match any in the list of users
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                alert('Access granted!');
+                // Redirect to Google
+                window.location.href = "https://www.google.com/";
+            } else {
+                errorMessage.textContent = "Invalid username or password.";
+            }
+        });
+    </script>
+</body>
+</html>
