@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .attendance-form {
+            margin: 20px 0;
+        }
+
+        input, select, button {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Attendance Tracker</h1>
+        
+        <div class="attendance-form">
+            <h2>Mark Attendance</h2>
+            <label for="rollNumber">Roll Number:</label>
+            <input type="text" id="rollNumber" placeholder="Enter roll number">
+            
+            <label for="studentName">Student Name:</label>
+            <input type="text" id="studentName" placeholder="Enter student's name">
+            
+            <label for="attendanceStatus">Attendance Status:</label>
+            <select id="attendanceStatus">
+                <option value="Present">Present</option>
+            </select>
+
+            <button onclick="markAttendance()">Mark Attendance</button>
+        </div>
+
+        <div class="attendance-report">
+            <h2>Attendance Records</h2>
+            <table id="attendanceTable">
+                <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Student Name</th>
+                        <th>Attendance Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Attendance records will be displayed here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Array to store the attendance records
+        let attendanceRecords = [];
+
+        function markAttendance() {
+            const rollNumber = document.getElementById('rollNumber').value;
+            const studentName = document.getElementById('studentName').value;
+            const attendanceStatus = document.getElementById('attendanceStatus').value;
+
+            // Ensure all fields are filled
+            if (rollNumber === '' || studentName === '') {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Create a record for the student's attendance
+            const attendanceRecord = {
+                rollNumber: rollNumber,
+                name: studentName,
+                status: attendanceStatus,
+            };
+
+            // Add the record to the attendance array
+            attendanceRecords.push(attendanceRecord);
+
+            // Clear the input fields
+            document.getElementById('rollNumber').value = '';
+            document.getElementById('studentName').value = '';
+
+            // Update the attendance table
+            updateAttendanceTable();
+        }
+
+        function updateAttendanceTable() {
+            const tableBody = document.getElementById('attendanceTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear previous records
+
+            // Iterate over attendance records and add them to the table
+            attendanceRecords.forEach(record => {
+                const row = tableBody.insertRow();
+                const cell1 = row.insertCell(0);
+                const cell2 = row.insertCell(1);
+                const cell3 = row.insertCell(2);
+                cell1.textContent = record.rollNumber;
+                cell2.textContent = record.name;
+                cell3.textContent = record.status;
+            });
+        }
+    </script>
+
+</body>
+</html> 
